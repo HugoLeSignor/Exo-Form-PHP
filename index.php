@@ -86,12 +86,7 @@ if (!isset($_SESSION['nombreMystere'])) {
             <input type="text" name="pseudo" id="pseudo">
             <br><br>
             <label for="couleur">Choisissez une couleur</label>
-            <select name="couleur" id="couleur">
-                <option value="red">Rouge</option>
-                <option value="blue">Bleu</option>
-                <option value="green">Vert</option>
-                <option value="yellow">Jaune</option>
-            </select>
+            <input type="color" name="couleur" id="couleur">
             <br><br>
             <button type="submit">Valider</button>
         </form>

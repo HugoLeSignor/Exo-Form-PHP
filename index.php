@@ -112,7 +112,7 @@ if (!isset($_SESSION['nombreMystere'])) {
 
         <p>
             <?php
-            if (!empty($_POST['de'])) {
+            if (isset($_POST['de'])) {
                 $nombreDes = $_POST['de'];
 
                 if ($nombreDes % 6 != 0) {
@@ -181,7 +181,7 @@ if (!isset($_SESSION['nombreMystere'])) {
 
         <p>
             <?php
-            if (!empty($_POST['nombre1']) && !empty($_POST['nombre2']) && !empty($_POST['operation'])) {
+            if (isset($_POST['nombre1']) && isset($_POST['nombre2']) && !empty($_POST['operation'])) {
                 $nombre1 = $_POST['nombre1'];
                 $nombre2 = $_POST['nombre2'];
                 $operation = $_POST['operation'];
@@ -218,16 +218,16 @@ if (!isset($_SESSION['nombreMystere'])) {
 
         <p>
             <?php
-            if (!empty($_POST['montant']) && !empty($_POST['devise'])) {
+            if (isset($_POST['montant']) && !empty($_POST['devise'])) {
                 $montant = $_POST['montant'];
                 $devise = $_POST['devise'];
 
                 if ($devise == 'dollar') {
-                    echo $montant * 1.1;
+                    echo $montant * 1.1 . " $";
                 } elseif ($devise == 'livre') {
-                    echo $montant * 0.85;
+                    echo $montant * 0.85 . " £";
                 } elseif ($devise == 'yen') {
-                    echo $montant * 150;
+                    echo $montant * 150 . " ¥";
                 }
             }
             ?>
@@ -316,6 +316,39 @@ if (!isset($_SESSION['nombreMystere'])) {
                 } else {
                     echo "Bravo ! Vous avez trouvé le nombre : " . $nombreMystere;
                     unset($_SESSION['nombreMystere']);
+                }
+            }
+            ?>
+        </p>
+    </section>
+
+    <section>
+        <h2>Exo 10</h2>
+        <form action="index.php" method="POST" enctype="multipart/form-data">
+            <label for="image">Upload une image</label>
+            <input type="file" name="image" id="image">
+            <br><br>
+            <button type="submit">Envoyer</button>
+        </form>
+
+        <p>
+            <?php
+            if (!empty($_FILES['image']['name'])) {
+                $fichier = $_FILES['image'];
+                $typesAutorises = ['image/jpeg', 'image/png', 'image/gif'];
+
+                if (in_array($fichier['type'], $typesAutorises)) {
+                    $nomUnique = uniqid() . '_' . $fichier['name'];
+                    $destination = 'uploads/' . $nomUnique;
+
+                    if (!file_exists('uploads')) {
+                        mkdir('uploads');
+                    }
+
+                    move_uploaded_file($fichier['tmp_name'], $destination);
+                    echo '<img src="' . $destination . '" width="300">';
+                } else {
+                    echo "Le fichier n'est pas une image";
                 }
             }
             ?>
